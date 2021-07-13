@@ -1,11 +1,23 @@
+const uniqid = require('uniqid');
+
 class Tree {
-  constructor(root) {
-    this.root = root;
+  constructor(name, id = uniqid()) {
+    this.name = name;
     this.nodes = [];
+    this.id = id;
   }
+
   addNode(data) {
-    // if (typeof data !== object) return;
+    if (typeof data !== 'object') return;
     this.nodes = [...this.nodes, data];
+  }
+
+  deleteNode(id) {
+    this.nodes = this.nodes.filter(node => node.id !== id);
+  }
+
+  listNodes() {
+    return this.nodes;
   }
 
   searchTreeByID(searchedObjectID) {
@@ -16,8 +28,7 @@ class Tree {
     if (typeof searchedObjectID != 'number') return console.log('podaj liczbę');
     if (searchedObjectID > this.nodes.length)
       return console.log('podana liczba jest za duża');
-    if (searchedObjectID < this.nodes.length)
-      return console.log('podana liczba jest za mała');
+    if (searchedObjectID < 0) return console.log('podana liczba jest za mała');
 
     while (low <= high) {
       let mid = Math.floor((low + high) / 2);
@@ -26,7 +37,7 @@ class Tree {
         console.log('Użytkownik: ' + array[mid]);
         return array[mid];
       }
-      if (searchedObjectID > array[mid].id) {
+      if (searchedObjectID > array[mid]) {
         console.log('ID jest większe, szukam dalej');
         low = mid + 1;
       } else {
@@ -62,44 +73,21 @@ class Tree {
   }
 }
 
-const tree = new Tree(1);
+const tree = new Tree('Admin');
 
-tree.addNode({
-  id: 1,
-  name: 'Maciej',
-  surname: 'Michalski',
-});
-tree.addNode({
-  id: 2,
-  name: 'Michał',
-  surname: 'Maciejski',
-});
-tree.addNode({
-  id: 3,
-  name: 'Jan',
-  surname: 'Salach',
-});
-tree.addNode({
-  id: 4,
-  name: 'Edyta',
-  surname: 'Raburska',
-});
-tree.addNode({
-  id: 5,
-  name: 'Urszula',
-  surname: 'Velez',
-});
-tree.addNode({
-  id: 6,
-  name: 'Maciej',
-  surname: 'Kuliński',
-});
-tree.addNode({
-  id: 7,
-  name: 'Juliusz',
-  surname: 'Fedyk',
-});
+tree.addNode(new Tree('Maciej', 1));
+tree.addNode(new Tree('Jan', 2));
+tree.addNode(new Tree('Edyta'));
+tree.addNode(new Tree('Juliusz'));
+tree.addNode(new Tree('Edyta'));
 
-console.log(tree);
-console.log(tree.searchTreeByID(7));
-console.log(tree.searchTreeByName('Juliusz'));
+// console.log(tree);
+// console.log('\nID:');
+// console.log(tree.searchTreeByID(1));
+// console.log('\nname:');
+// console.log(tree.searchTreeByName('Juliusz'));
+
+console.log(tree.listNodes());
+console.log(tree.deleteNode(2));
+console.log(tree.listNodes());
+console.log();
