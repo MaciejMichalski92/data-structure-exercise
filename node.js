@@ -1,7 +1,6 @@
 const uniqid = require('uniqid');
-const Node = require('./node.js');
 
-class Tree {
+class Node {
   constructor(name, id = uniqid()) {
     this.name = name;
     this.nodes = [];
@@ -74,4 +73,5 @@ class Tree {
   }
 }
 
-module.exports = Tree;
+console.log('Node to typ: ' + typeof Node);
+module.exports = Node;
